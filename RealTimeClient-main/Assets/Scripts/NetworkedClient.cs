@@ -18,6 +18,10 @@ public class NetworkedClient : MonoBehaviour
 
     void Start()
     {
+
+        // KINDA Singleton implementation
+        // set the first available client to the networked client
+
         if (NetworkedClientProcessing.GetNetworkedClient() == null)
         {
             DontDestroyOnLoad(this.gameObject);
@@ -68,7 +72,7 @@ public class NetworkedClient : MonoBehaviour
             unreliableChannelID = config.AddChannel(QosType.Unreliable);
             HostTopology topology = new HostTopology(config, maxConnections);
             hostID = NetworkTransport.AddHost(topology, 0);
-            connectionID = NetworkTransport.Connect(hostID, "192.168.2.41", socketPort, 0, out error); // server is local on network
+            connectionID = NetworkTransport.Connect(hostID, "10.0.0.3", socketPort, 0, out error); // server is local on network
 
             if (error == 0)
             {

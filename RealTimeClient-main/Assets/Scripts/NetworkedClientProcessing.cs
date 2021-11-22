@@ -13,14 +13,18 @@ static public class NetworkedClientProcessing
         string[] csv = msg.Split(',');
         int signifier = int.Parse(csv[0]);
 
-        // if (signifier == ServerToClientSignifiers.asd)
-        // {
-
-        // }
-        // else if (signifier == ServerToClientSignifiers.asd)
-        // {
-
-        // }
+        if (signifier == ServerToClientSignifiers.SpawnBalloon)
+        {
+            float screenPositionXPercent = float.Parse(csv[1]);
+            float screenPositionYPercent = float.Parse(csv[2]);
+            int balloonID = int.Parse(csv[3]);
+            Vector2 screenPosition = new Vector2(screenPositionXPercent * (float)Screen.width, screenPositionYPercent * (float)Screen.height);
+            gameLogic.SpawnNewBalloon(screenPosition, balloonID);
+        }
+        else if (signifier == ServerToClientSignifiers.BalloonPopped)
+        {
+            gameLogic.DestroyBalloon(int.Parse(csv[1]));
+        }
 
         //gameLogic.DoSomething();
 
@@ -81,13 +85,15 @@ static public class NetworkedClientProcessing
 #region Protocol Signifiers
 static public class ClientToServerSignifiers
 {
-    public const int asd = 1;
+    public const int BalloonClicked = 1;
 }
 
 static public class ServerToClientSignifiers
 {
-    public const int asd = 1;
+    public const int SpawnBalloon = 1;
+    public const int BalloonPopped = 2;
+    public const int PlayerDisconnected = 3;
+
 }
 
 #endregion
-
